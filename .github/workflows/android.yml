@@ -8,6 +8,11 @@ on:
 permissions:
   contents: write
 
+# A newer push supersedes an older run, so two runs never race on the latest-debug release.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
