@@ -15,21 +15,20 @@ jobs:
           distribution: temurin
           java-version: "17"
       - uses: gradle/actions/setup-gradle@v5
-      - name: Download Gradle (retry on transient errors)
-        run: |
-          for i in 1 2 3 4; do ./gradlew --no-daemon --version && exit 0; sleep $((i * 10)); done
-          exit 1
+        with:
+          # Same version as the wrapper; provisioned by the action, which retries and caches.
+          gradle-version: "8.14.3"
       - name: Build debug APK and run unit tests
-        run: ./gradlew --no-daemon :app:assembleDebug :app:testDebugUnitTest :app:lintDebug
+        run: gradle --no-daemon :app:assembleDebug :app:testDebugUnitTest :app:lintDebug
       - name: Upload debug APK
         if: success()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: peek-debug-apk
           path: app/build/outputs/apk/debug/*.apk
       - name: Upload reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: reports
           path: app/build/reports/
