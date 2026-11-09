@@ -18,3 +18,12 @@ How the spec §12 requirements are met in code. Re-audit before publishing any p
 
 Only notifications from supported packages (currently `com.facebook.orca`) are inspected;
 notifications from other apps return immediately without being read.
+
+## Triggers added after the first prototype
+
+| Feature | Privacy handling |
+| --- | --- |
+| Home screen shortcuts | Show chat titles on the launcher. Cleared at process start, on *Clear cached previews*, and when PEEK is turned off. No message text in shortcuts. |
+| Quick Settings tile | Shows only a chat count. |
+| Edge handle | Stores only its vertical position (DataStore). |
+| PEEK Lab accessibility service | Separate app (`com.peek.app.lab`), never in the standard build. Scoped to `com.facebook.orca` and `typeViewLongClicked` only. Row text is compared with captured titles in memory and discarded; only counters are kept. |
