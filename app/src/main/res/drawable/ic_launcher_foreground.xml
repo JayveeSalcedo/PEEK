@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A speech bubble with an eye: "see the conversation". 108dp adaptive-icon canvas. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,30C38.5,30 26,40.3 26,53C26,60.2 30,66.6 36.3,70.8L34,80L44.2,74.6C47.3,75.5 50.6,76 54,76C69.5,76 82,65.7 82,53C82,40.3 69.5,30 54,30Z" />
+    <path
+        android:fillColor="#5B4BDB"
+        android:pathData="M54,43C45.5,43 39,49.5 37,53C39,56.5 45.5,63 54,63C62.5,63 69,56.5 71,53C69,49.5 62.5,43 54,43Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,47A6,6 0,1 1,54 59A6,6 0,1 1,54 47Z" />
+    <path
+        android:fillColor="#5B4BDB"
+        android:pathData="M54,50.5A2.5,2.5 0,1 1,54 55.5A2.5,2.5 0,1 1,54 50.5Z" />
+</vector>
