@@ -22,24 +22,25 @@ jobs:
           # Same version as the wrapper; provisioned by the action, which retries and caches.
           gradle-version: "8.14.3"
       - name: Build debug APK and run unit tests
-        run: gradle --no-daemon :app:assembleDebug :app:testDebugUnitTest :app:lintDebug
+        run: gradle --no-daemon :app:assembleStandardDebug :app:assembleLabDebug :app:testStandardDebugUnitTest :app:lintStandardDebug :app:lintLabDebug
       - name: Upload debug APK
         if: success()
         uses: actions/upload-artifact@v5
         with:
           name: peek-debug-apk
-          path: app/build/outputs/apk/debug/*.apk
+          path: app/build/outputs/apk/*/debug/*.apk
       - name: Publish APK as a direct download (rolling "latest-debug" pre-release)
         if: success() && github.event_name == 'push'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          cp app/build/outputs/apk/debug/app-debug.apk peek-debug.apk
+          cp app/build/outputs/apk/standard/debug/app-standard-debug.apk peek-debug.apk
+          cp app/build/outputs/apk/lab/debug/app-lab-debug.apk peek-lab-debug.apk
           gh release delete latest-debug --yes --cleanup-tag || true
-          gh release create latest-debug peek-debug.apk \
+          gh release create latest-debug peek-debug.apk peek-lab-debug.apk \
             --prerelease --target "${{ github.sha }}" \
             --title "PEEK debug build (latest)" \
-            --notes "Debug APK built from ${{ github.ref_name }} @ ${{ github.sha }}. Not for distribution."
+            --notes "peek-debug.apk = standard app. peek-lab-debug.apk = PEEK Lab (experimental long-press in Messenger via Accessibility; never for Play). Built from ${{ github.ref_name }} @ ${{ github.sha }}. Not for distribution."
       - name: Upload reports
         if: always()
         uses: actions/upload-artifact@v5

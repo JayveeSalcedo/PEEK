@@ -19,6 +19,25 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    flavorDimensions += "edition"
+    productFlavors {
+        // What ships (and what goes to Google Play): no AccessibilityService.
+        create("standard") {
+            dimension = "edition"
+            buildConfigField("boolean", "LAB", "false")
+            resValue("string", "app_name", "PEEK")
+        }
+        // Experiments that Play policy would not allow (long-press in Messenger via
+        // Accessibility). Separate app ID so it can sit next to the standard build.
+        create("lab") {
+            dimension = "edition"
+            applicationIdSuffix = ".lab"
+            versionNameSuffix = "-lab"
+            buildConfigField("boolean", "LAB", "true")
+            resValue("string", "app_name", "PEEK Lab")
+        }
+    }
+
     signingConfigs {
         // Public, non-secret debug key committed to the repo so every build (local or CI)
         // has the same signature and can be installed over the previous one.

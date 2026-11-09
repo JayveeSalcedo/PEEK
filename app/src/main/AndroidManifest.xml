@@ -5,6 +5,11 @@
     <!-- Floating preview. Granted by the user in Settings; checked with canDrawOverlays(). -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
+    <!-- Lets "Open Messenger" in the preview find Messenger's launcher activity (Android 11+). -->
+    <queries>
+        <package android:name="com.facebook.orca" />
+    </queries>
+
     <!--
         Intentionally absent: INTERNET (local-only prototype), AccessibilityService,
         and any analytics/ads SDKs. See docs/PRIVACY.md.
@@ -31,6 +36,26 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Invisible trampoline for launcher shortcuts and the Quick Settings tile. -->
+        <activity
+            android:name=".core.shortcuts.PeekLauncherActivity"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:noHistory="true"
+            android:taskAffinity=""
+            android:theme="@android:style/Theme.NoDisplay" />
+
+        <service
+            android:name=".core.triggers.PeekTileService"
+            android:exported="true"
+            android:icon="@drawable/ic_tile_peek"
+            android:label="@string/tile_label"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
 
         <service
             android:name=".core.notifications.PeekNotificationService"

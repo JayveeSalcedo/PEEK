@@ -5,52 +5,39 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
-private val LightColors = lightColorScheme(
-    primary = PeekViolet,
-    onPrimary = Color.White,
-    primaryContainer = PeekVioletContainer,
-    onPrimaryContainer = Color(0xFF170065),
-    secondary = PeekCoral,
-    onSecondary = Color.White,
-    background = PeekPaper,
-    onBackground = PeekInk,
-    surface = PeekPaper,
-    onSurface = PeekInk,
-)
-
-private val DarkColors = darkColorScheme(
-    primary = PeekVioletLight,
-    onPrimary = Color(0xFF2A1A9E),
-    primaryContainer = PeekVioletContainerDark,
-    onPrimaryContainer = PeekVioletContainer,
-    secondary = PeekCoralLight,
-    onSecondary = Color(0xFF690005),
-    background = PeekNight,
-    onBackground = Color(0xFFE6E1EC),
-    surface = PeekNight,
-    onSurface = Color(0xFFE6E1EC),
-    surfaceContainerHigh = PeekNightSurface,
-)
+val LocalPeekColors = staticCompositionLocalOf { LightPeekColors }
 
 @Composable
 fun PeekTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit,
 ) {
-    MaterialTheme(
-        colorScheme = if (darkTheme) DarkColors else LightColors,
-        content = content,
+    val peek = if (darkTheme) DarkPeekColors else LightPeekColors
+    val base = if (darkTheme) darkColorScheme() else lightColorScheme()
+    val scheme = base.copy(
+        primary = peek.tint,
+        onPrimary = Color.White,
+        primaryContainer = peek.outgoingBubble,
+        onPrimaryContainer = Color.White,
+        secondary = peek.tint,
+        tertiary = peek.green,
+        error = peek.red,
+        background = peek.groupedBackground,
+        onBackground = peek.label,
+        surface = peek.cell,
+        onSurface = peek.label,
+        onSurfaceVariant = peek.secondaryLabel,
+        surfaceContainer = peek.cell,
+        surfaceContainerHigh = peek.cell,
+        surfaceContainerHighest = peek.incomingBubble,
+        outline = peek.separator,
+        outlineVariant = peek.separator,
     )
-}
-
-/** Stable color for a sender name, so each participant keeps one color within a preview. */
-@Composable
-@ReadOnlyComposable
-fun senderColor(sender: String?): Color {
-    val palette = if (isSystemInDarkTheme()) SenderColorsDark else SenderColorsLight
-    if (sender == null) return MaterialTheme.colorScheme.onSurfaceVariant
-    return palette[Math.floorMod(sender.hashCode(), palette.size)]
+    CompositionLocalProvider(LocalPeekColors provides peek) {
+        MaterialTheme(colorScheme = scheme, typography = PeekTypography, content = content)
+    }
 }

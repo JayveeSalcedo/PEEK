@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">PEEK</string>
+    <!-- app_name is defined per flavor in app/build.gradle.kts. -->
     <string name="notification_service_label">PEEK message previews</string>
+    <string name="tile_label">PEEK</string>
 </resources>

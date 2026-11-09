@@ -44,6 +44,10 @@ object PermissionSettings {
         )
     }
 
+    fun openAccessibility(context: Context) {
+        launchFirst(context, listOf(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)))
+    }
+
     /** App info screen: on Android 13+ this is where sideloaded builds "Allow restricted settings". */
     fun openAppDetails(context: Context) {
         launchFirst(

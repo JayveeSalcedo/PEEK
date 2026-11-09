@@ -7,6 +7,7 @@ import com.peek.app.core.overlay.OverlayPermissionChecker
 data class PermissionStatus(
     val notificationAccess: Boolean,
     val overlay: Boolean,
+    val labAccessibility: Boolean = false,
 ) {
     val allGranted: Boolean get() = notificationAccess && overlay
 
@@ -14,6 +15,7 @@ data class PermissionStatus(
         fun read(context: Context) = PermissionStatus(
             notificationAccess = NotificationAccessChecker.isGranted(context),
             overlay = OverlayPermissionChecker.isGranted(context),
+            labAccessibility = LabAccess.isServiceEnabled(context),
         )
     }
 }

@@ -2,7 +2,6 @@ package com.peek.app.features.preview
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -20,18 +19,18 @@ class PeekPreviewCardTest {
     val compose = createComposeRule()
 
     @Test
-    fun showsConversationAndDismisses() {
-        var dismissed = 0
+    fun showsConversationAndCloses() {
+        var closed = 0
         val conversation = SampleConversation.create()
         compose.setContent {
-            PeekTheme { PeekPreviewCard(conversation, onDismiss = { dismissed++ }) }
+            PeekTheme { PeekPreview(conversation, onOpenApp = null, onClose = { closed++ }) }
         }
 
         compose.onNodeWithText(conversation.title).assertIsDisplayed()
         compose.onNodeWithText(conversation.messages.last().text).assertIsDisplayed()
-        compose.onNodeWithText("Showing messages from notifications only").assertIsDisplayed()
+        compose.onNodeWithText(NOTIFICATION_ONLY_NOTE).assertIsDisplayed()
 
-        compose.onNodeWithContentDescription("Close preview").performClick()
-        assertEquals(1, dismissed)
+        compose.onNodeWithText("Close").performClick()
+        assertEquals(1, closed)
     }
 }

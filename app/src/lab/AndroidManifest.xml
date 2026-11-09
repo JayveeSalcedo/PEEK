@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Lab flavor only. Adds the experimental accessibility service that detects long-presses
+    on chats inside Messenger. Never part of the standard (Play) build: Google Play does not
+    permit the Accessibility API for this purpose.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application>
+        <service
+            android:name=".lab.PeekAccessibilityService"
+            android:exported="true"
+            android:label="@string/lab_accessibility_label"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/peek_accessibility" />
+        </service>
+    </application>
+</manifest>

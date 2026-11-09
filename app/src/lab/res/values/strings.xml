@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="lab_accessibility_label">PEEK Lab: long-press in Messenger</string>
+    <string name="lab_accessibility_description">Experimental. When you press and hold a chat in Messenger, PEEK Lab shows its preview. It only watches Messenger, only reacts to long-presses, and only compares the pressed row with chat names PEEK already has from notifications. Nothing is stored or sent anywhere.</string>
+</resources>
